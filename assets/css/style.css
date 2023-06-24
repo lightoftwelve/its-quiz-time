@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&display=swap');
+
+:root {
+    --light: ;
+    --lighter: #a5a5a5;
+    --dark: ;
+    --darkest: #303030;
+    --accent: #C1FF72;
+    --white: #ffffff;
+    --black: #000000;
+}
+
+body {
+    font-size: 16px;
+    margin: 0;
+}
+
+span {
+    color: var(--accent);
+}
+
+/* HEADER & NAVIGATION SECTION */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    position: relative;
+    width: 100%;
+    color: var(--white);
+    background-size: cover;
+    background-color: var(--darkest);
+}
+
+header ion-icon {
+    color: var(--white);
+}
+
+header h1,
+header h1 a,
+header nav {
+    color: var(--white);
+    padding: 0 30px;
+    text-decoration: none;
+    font-family: 'Playfair Display', serif;
+}
+
+header h1,
+header nav {
+    font-size: 28px;
+    font-weight: 500;
+}
+
+/* Regular Navigation Part */
+header nav {
+    font-size: 16px;
+}
+
+header nav a {
+    margin-left: 5px;
+    color: var(--white);
+    padding: 0 30px;
+}
+
+header nav a:hover {
+    color: var(--accent);
+}
+
+/* For Dropdown Menu Part */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--white);
+    width: 250px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0;
+    top: 100%;
+}
+
+.dropdown .dropbtn {
+    color: var(--white);
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: var(--black);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    margin: 0;
+}
+
+.dropdown-content a:hover {
+    color: var(--accent);
+    background-color: var(--darkest);
+}
+
+/* HERO IMAGE SECTION */
+.hero {
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    background-image: url("../images/laptop-on-table-with-notebook-javascript.jpg");
+    padding: 0 5%;
+    text-align: left;
+}
+
+.hero h2 {
+    font-size: 100px;
+    margin: 0;
+    color: var(--white);
+    text-shadow: 2px 2px 2px var(--black);
+}
+
+.hero p {
+    font-size: 24px;
+    margin: 0;
+    margin-top: 10px;
+    color: var(--white);
+    text-shadow: 2px 2px 2px var(--black);
+}
+
+.hero .white-arrow,
+.hero .black-arrow {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.hero .white-arrow {
+    color: var(--white);
+    z-index: 2;
+}
+
+.hero .black-arrow {
+    bottom: -28px;
+    color: var(--black);
+    z-index: 1;
+}
+
+/* HEADER & NAVIGATION SECTION */
