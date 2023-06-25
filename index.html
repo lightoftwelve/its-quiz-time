@@ -110,6 +110,44 @@
                     <h4 class="quiz-titles" id="quiz-countdown">5, 4, 3, 2, 1...</h4>
                     <button class="quiz-btn" id="start-btn">START</button>
                 </div>
+
+                <div class="question-one" id="question-one" style="display:none;">
+                    <!-- TESTING TIMER IDEA- -->
+                    <div class="quizCountdown">
+
+                        <!-- Minute Timer-->
+                        <div class="timeCircle">
+                            <div class="marker min_marker"></div>
+                            <svg>
+                                <circle cx="70" cy="70" r="70"></circle>
+                                <circle cx="70" cy="70" r="70" id="minCircle"></circle>
+                            </svg>
+                            <div id="minutesDisplay">00 <br><span>MINUTES</span></div>
+                        </div>
+
+                        <!-- Second Timer-->
+                        <div class="timeCircle">
+                            <div class="marker sec_marker"></div>
+                            <svg>
+                                <circle cx="70" cy="70" r="70"></circle>
+                                <circle cx="70" cy="70" r="70" id="secCircle"></circle>
+                            </svg>
+                            <div id="secondsDisplay">00 <br><span>SECONDS</span></div>
+                        </div>
+
+                        <h2 class="finishMessage">Thank You For<br><span>Playing</span></h2>
+                    </div>
+
+                    <h2 id="question">Which of the following is not a JavaScript data type?</h2>
+                    <div id="answers">
+                        <button class="answer">A. String</button>
+                        <button class="answer">B. Boolean</button>
+                        <button class="answer">C. Character</button>
+                        <button class="answer">D. Number</button>
+                    </div>
+                </div>
+            </div>
+            </div>
             </div>
         </section>
 

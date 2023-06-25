@@ -18,12 +18,19 @@ var rulesContainer = document.getElementById("rulesContainer");
 var countdownContainer = document.getElementById("countdownContainer");
 var quizContainer = document.getElementById("quizContainer");
 var quizNextButton = document.getElementById("next-btn");
+
 var quizStartButton = document.getElementById("start-btn");
+var questionOne = document.getElementById("question-one");
 
 quizNextButton.addEventListener(`click`, function () {
     rulesContainer.style.display = "none";
     countdownContainer.style.display = "block";
 });
+
+quizStartButton.addEventListener(`click`, function () {
+    countdownContainer.style.display = "none";
+    questionOne.style.display = "block";
+})
 
     // General Plan:
     // Declare variables to keep track of score

@@ -230,12 +230,12 @@ p.subtitle {
 
 /* KEY FEATURES SECTION */
 .key-features {
-    height: 700px;
     display: flex;
-    justify-content: center;
+    height: 700px;
     align-items: center;
     background-color: var(--black);
     background-image: url("../images/gaming-background.jpg");
+    justify-content: center;
 }
 
 .key-surround {
@@ -323,4 +323,144 @@ p.subtitle {
 
 .quiz-instructions {
     font-size: 16px;
+}
+
+/* QUESTIONS */
+.question-one {
+    border: 4px solid var(--accent);
+    padding: 20px;
+    width: 100%;
+    align-items: center;
+    height: 500px;
+    justify-content: center;
+}
+
+.question-one img {
+    width: 100%;
+    height: 150px;
+}
+
+.question-one p,
+#question {
+    background-color: var(--accent);
+    font-size: 16px;
+    padding: 20px;
+    color: var(--black);
+    justify-content: center;
+    align-items: center;
+}
+
+#answers .answer {
+    width: 100%;
+    padding: 20px;
+    color: var(--white);
+    background-color: var(--darkgrey);
+    text-align: left;
+    height: auto;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+#answers .answer:hover {
+    background-color: var(--accent);
+    color: var(--black);
+}
+
+/* TIMER DISPLAY SECTION */
+/* The following timer display is a modified version of a tutorial I followed by https://www.patreon.com/onlinetutorials // 
+Project titled: Countdown Timer in Vanilla Javascript | CSS SVG Circle Countdown Time Animation */
+.quizCountdown {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    height: 175px;
+    background-color: var(--black);
+}
+
+.quizCountdown .timeCircle {
+    width: 155px;
+    justify-content: center;
+    display: flex;
+    position: relative;
+    height: 155px;
+    align-items: center;
+}
+
+.quizCountdown .timeCircle svg {
+    width: 155px;
+    position: relative;
+    transform: rotate(270deg);
+    height: 155px;
+}
+
+.quizCountdown .timeCircle svg circle {
+    width: 100%;
+    stroke-width: 8;
+    height: 100%;
+    stroke: #282828;
+    stroke-linecap: round;
+    fill: transparent;
+    transform: translate(5px, 5px);
+}
+
+.quizCountdown .timeCircle svg circle:nth-child(2) {
+    stroke: var(--accent);
+    stroke-dasharray: 440;
+    stroke-dashoffset: 440;
+}
+
+.quizCountdown div {
+    font-weight: 600;
+    position: absolute;
+    color: var(--white);
+    text-align: center;
+    font-size: 30px;
+}
+
+.quizCountdown div span {
+    position: absolute;
+    letter-spacing: 0.1em;
+    margin-top: 7px;
+    font-weight: 400;
+    font-size: 18px;
+    transform: translateX(-50%) translateY(-10px);
+}
+
+.quizCountdown .marker {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 1000;
+}
+
+.quizCountdown .marker::before {
+    content: '';
+    width: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    height: 18px;
+    top: 2px;
+    box-shadow: 0 0 20px var(--accent),
+        0 0 60px var(--accent);
+    position: absolute;
+}
+
+.finishMessage {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--white);
+    text-align: center;
+    line-height: 0.6em;
+    display: none;
+}
+
+.finishMessage span {
+    font-size: 18px;
+    font-weight: 300;
 }
