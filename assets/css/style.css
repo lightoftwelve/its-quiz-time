@@ -165,8 +165,7 @@ header nav a:hover {
 }
 
 /* HALF BOXES (INTRODUCTION & GET STARTED SECTIONS) */
-.halfbox,
-.halfbox2 {
+.halfbox {
     display: flex;
     align-items: stretch;
     justify-content: center;
@@ -176,14 +175,12 @@ header nav a:hover {
 }
 
 /* Creates a two-column layout within elements with the class .halfbox and .halfbox2. Flex 1 lets them grow and shrink equally while 50% sets the width sharing both colums equally */
-.halfbox>div,
-.halfbox2>div {
+.halfbox>div {
     flex: 1;
     width: 50%;
 }
 
-.halfbox-writing,
-.halfbox2-writing {
+.halfbox-writing {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -192,9 +189,8 @@ header nav a:hover {
     padding: 0 40px;
 }
 
-.halfbox h2,
-.halfbox2 h2 {
-    font-size: 40px;
+.halfbox h2 {
+    font-size: 60px;
     color: var(--darkestgrey);
     text-align: left;
     margin: 10px 0 15px 0;
@@ -202,8 +198,7 @@ header nav a:hover {
     font-family: 'Playfair Display', serif;
 }
 
-.halfbox p,
-.halfbox2 p {
+.halfbox p {
     margin: 0;
     text-align: left;
     padding: 15px 40px;
@@ -214,8 +209,7 @@ p.subtitle {
     padding: 0;
 }
 
-.halfbox img,
-.halfbox2 img {
+.halfbox img {
     max-height: 700px;
     object-fit: cover;
     object-position: center;
@@ -263,9 +257,9 @@ p.subtitle {
 .key-surround h2 {
     margin-top: 0;
     padding: 10px 20px;
-    font-size: 100px;
+    font-size: 70px;
     color: var(--white);
-    text-shadow: 4px 4px 4px var(--accent);
+    text-shadow: 2px 2px 2px var(--accent);
 }
 
 .key-flex {
@@ -305,7 +299,7 @@ p.subtitle {
 .quiz-container {
     margin-top: 40px;
     color: var(--white);
-    font-size: 100px;
+    font-size: 70px;
     padding-bottom: 0;
     width: 700px;
     text-align: center;
@@ -322,7 +316,7 @@ p.subtitle {
 }
 
 .quiz-titles {
-    text-shadow: 4px 4px 4px var(--accent);
+    text-shadow: 2px 2px 2px var(--accent);
     padding: 0;
     margin: 0;
 }
