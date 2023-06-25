@@ -17,7 +17,6 @@
         <section class="hero">
             <h2>Know It<br>Or<br>Blow It: <br><span>Quiz</span> Edition</h2>
             <p><i>JavaScript: Making the web more 'fun'-ctional since its creation!</i></p>
-            <!--Remember to connect this-->
             <a href="#arrow-down">
                 <ion-icon name="arrow-down-circle" aria-label="Scroll down" class="white-arrow"
                     style="font-size: 50px;"></ion-icon>
@@ -26,7 +25,82 @@
             </a>
         </section>
 
-        <script src="assets/javascript/script.js"></script>
+        <!-- Introduction -->
+        <section class="halfbox">
+            <div class="halfbox-writing" id="arrow-down">
+                <p class="subtitle">WELCOME TO OUR CHALLENGING</p>
+                <h2>JAVASCRIPT QUIZ</h2>
+                <p>Welcome to an exhilarating quiz adventure like no other! Prepare yourself for a series of
+                    mind-boggling questions that will put your knowledge to the test. With each question, you'll embark
+                    on a journey of discovery, uncovering fascinating facts and expanding your understanding of various
+                    subjects. Get ready to challenge yourself and dive into a world of curiosity!</p>
+            </div>
+            <div>
+                <img src="./assets/images/highscore-board.jpg" alt="A digital highscore board">
+            </div>
+        </section>
+
+        <!-- Key Features -->
+        <section class="key-features">
+            <div class="key-surround">
+                <h2>Key Features</h2>
+                <div class="key-flex">
+                    <h3><u>Interactive Questions</u></h3>
+                    <p>Engage in a thrilling quiz experience with thought-provoking questions that will keep you on your
+                        toes.</p>
+                    <h3><u>Real-Time Feedback</u></h3>
+                    <p>Receive instant feedback on your answers and track your progress throughout the quiz.</p>
+                    <h3><u>Exciting Sound Effects</u></h3>
+                    <p>Immerse yourself in the quiz atmosphere with captivating sound effects that enhance your gaming
+                        experience.</p>
+                    <h3><u>High Score Competition</u></h3>
+                    <p>Compete with friends and fellow quiz enthusiasts for the top spot on the leaderboard and prove
+                        your knowledge reigns supreme.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Get Started Section -->
+        <section class="halfbox2">
+            <div>
+                <img src="./assets/images/game-room-wall-background.jpg" alt="gamer sitting at a chair and computer">
+            </div>
+            <div class="halfbox2-writing">
+                <h2>GET STARTED</h2>
+                <p>Whether you're a trivia aficionado or simply looking for a fun and educational activity, our quiz
+                    will provide hours of entertainment and valuable learning. Are you ready to embark on this thrilling
+                    quiz adventure and put your knowledge to the test? Let the journey begin!
+                </p>
+                <a href="#quiz-container" class="halfbox-btn">TAKE THE QUIZ</a>
+            </div>
+        </section>
+
+        <!-- Quiz Section- -->
+        <section class="quiz-section">
+            <div class="quiz-container" id="quiz-container">
+                <div id="rulesContainer">
+                    <h4 class="quiz-titles" id="quiz-title-rules">Rules</h4>
+                    <p class=quiz-instructions id="quiz-rules">Welcome to the LogicLab's "Know It or Blow It:
+                        Javascript Quiz"! Get ready to
+                        test your knowledge and race against the clock! You have a thrilling 2 minutes to tackle 15
+                        mind-bending questions. But here's the catch: the faster you answer correctly, the higher your
+                        score! Each correct answer will earn you points based on the time you have left. So, think fast,
+                        act
+                        swiftly, and maximize your score! But beware, 15 precious seconds will be snatched away from
+                        your
+                        countdown for every wrong answer. Can you conquer the challenge and rise to the top of the
+                        leaderboard? Get ready to unleash your brainpower and go on an epic quiz adventure!
+                    </p>
+                    <button class="quiz-btn" id="next-btn">NEXT</button>
+                </div>
+                <div id="countdownContainer" style="display: none;">
+                    <h4 class="quiz-titles" id="quiz-countdown">5, 4, 3, 2, 1...</h4>
+                    <button class="quiz-btn" id="start-btn">START</button>
+                </div>
+            </div>
+        </section>
+
+        <script src=" assets/javascript/script.js"></script>
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     </main>

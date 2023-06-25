@@ -2,10 +2,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&display=swap');
 
 :root {
-    --light: ;
-    --lighter: #a5a5a5;
-    --dark: ;
-    --darkest: #303030;
+    --keylime: #DCFFB0;
+    --lightgrey: #a5a5a5;
+    --darkgrey: #303030;
+    --darkestgrey: #050405;
     --accent: #C1FF72;
     --white: #ffffff;
     --black: #000000;
@@ -14,6 +14,7 @@
 body {
     font-size: 16px;
     margin: 0;
+    font-family: 'Cormorant Garamond', serif;
 }
 
 span {
@@ -30,7 +31,7 @@ header {
     width: 100%;
     color: var(--white);
     background-size: cover;
-    background-color: var(--darkest);
+    background-color: var(--darkestgrey);
 }
 
 header ion-icon {
@@ -100,7 +101,7 @@ header nav a:hover {
 }
 
 .dropdown-content a {
-    color: var(--black);
+    color: var(--darkestgrey);
     padding: 12px 16px;
     text-decoration: none;
     display: block;
@@ -109,7 +110,7 @@ header nav a:hover {
 
 .dropdown-content a:hover {
     color: var(--accent);
-    background-color: var(--darkest);
+    background-color: var(--darkestgrey);
 }
 
 /* HERO IMAGE SECTION */
@@ -163,4 +164,114 @@ header nav a:hover {
     z-index: 1;
 }
 
-/* HEADER & NAVIGATION SECTION */
+/* HALF BOXES (INTRODUCTION & GET STARTED SECTIONS) */
+.halfbox,
+.halfbox2 {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    width: 100%;
+    height: 600px;
+    background-color: var(--keylime);
+}
+
+/* Creates a two-column layout within elements with the class .halfbox and .halfbox2. Flex 1 lets them grow and shrink equally while 50% sets the width sharing both colums equally */
+.halfbox>div,
+.halfbox2>div {
+    flex: 1;
+    width: 50%;
+}
+
+.halfbox-writing,
+.halfbox2-writing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    text-align: left;
+    padding: 0 40px;
+}
+
+.halfbox h2,
+.halfbox2 h2 {
+    font-size: 40px;
+    color: var(--darkestgrey);
+    text-align: left;
+    margin: 10px 0 15px 0;
+    padding: 0 40px;
+    font-family: 'Playfair Display', serif;
+}
+
+.halfbox p,
+.halfbox2 p {
+    margin: 0;
+    text-align: left;
+    padding: 15px 40px;
+}
+
+p.subtitle {
+    margin-left: 40px;
+    padding: 0;
+}
+
+.halfbox img,
+.halfbox2 img {
+    max-height: 700px;
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+}
+
+.halfbox-btn {
+    display: inline-block;
+    width: 150px;
+    padding: 10px;
+    margin: 20px 40px;
+    color: var(--white);
+    background-color: var(--black);
+    text-align: center;
+    text-decoration: none;
+}
+
+/* KEY FEATURES SECTION */
+
+
+/* QUIZ SECTION */
+.quiz-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 600px;
+    background-color: var(--black);
+}
+
+.quiz-container {
+    margin-top: 40px;
+    color: var(--white);
+    font-size: 130px;
+    padding-bottom: 0;
+    width: 700px;
+    text-align: center;
+}
+
+.quiz-btn {
+    width: 150px;
+    padding: 10px;
+    margin: 20px 40px;
+    color: var(--black);
+    background-color: var(--accent);
+    text-align: center;
+    height: auto;
+}
+
+.quiz-titles {
+    text-shadow: 4px 4px 4px var(--accent);
+    padding: 0;
+    margin: 0;
+}
+
+.quiz-instructions {
+    font-size: 16px;
+}
