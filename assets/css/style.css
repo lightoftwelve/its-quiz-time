@@ -464,3 +464,17 @@ Project titled: Countdown Timer in Vanilla Javascript | CSS SVG Circle Countdown
     font-size: 18px;
     font-weight: 300;
 }
+
+/* FEEDBACK IN QUIZ FOR RIGHT OR WRONG ANSWER */
+.feedback-popup,
+#feedback-message {
+    width: 700px;
+    background-color: var(--accent);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: var(--black);
+    text-align: center;
+    display: none;
+    position: absolute;
+    z-index: 100;
+}

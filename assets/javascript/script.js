@@ -1,3 +1,5 @@
+'use strict';
+
 // Ensures the header is loaded on each HTML page
 fetch('header.html')
     // The 'then' method handles asynchronous operations and executes the next steps once the promise is resolved (i.e., when it successfully completes the task)
@@ -22,9 +24,15 @@ var quizNextButton = document.getElementById("next-btn");
 
 var quizStartButton = document.getElementById("start-btn");
 var getQuestion = document.getElementById("question");
-var answerButtons = document.getElementsByClassName("answer");
+var answerButtons = Array.from(document.getElementsByClassName("answer"));
+
+var feedbackElement = document.querySelector('#feedback');
 
 var selectedQuestions = []; // will hold information keeping track of what questions were selected
+var currentQuestionIndex = 0; // For tracking the current question.
+
+var feedbackPopup = document.getElementById("feedbackPopup");
+var feedbackMessage = document.getElementById("feedbackPopupMessage");;
 
 // SELECT AND STORE 15 RANDOM QUESTIONS
 // Function to randomly select and store 15 questions (amount determined by selectRandomQuestions(15);)
@@ -41,18 +49,55 @@ function selectRandomQuestions(numQuestions) {
 
 // SHOW QUESTION FUNCTION
 // For displaying questions & answers
-function showQuestion(questionIndex) {
-    var question = questions[questionIndex]; // Grabs the questions object
-    getQuestion.textContent = question.question; // Shows the question
+var correctSound = new Audio('assets/audio/game-bonus-144751.mp3');
+var incorrectSound = new Audio('assets/audio/surprise-sound-effect-99300.mp3');
 
-    for (var i = 0; i < answerButtons.length; i++) {  // Shows answers on buttons
+function showQuestion(questionIndex) {
+    var question = selectedQuestions[questionIndex];
+    getQuestion.textContent = question.question;
+
+    answerButtons.forEach(button => {
+        button.textContent = '';
+        button.style.display = 'none';
+        // Overrides old event listener
+        button.onclick = null;
+    });
+
+    for (var i = 0; i < question.answers.length; i++) {
         answerButtons[i].textContent = question.answers[i];
+        answerButtons[i].style.display = 'block';
+
+        // Event listener to display answer status when clicked
+        answerButtons[i].onclick = function () {
+            feedbackPopup.style.display = "block";
+            if (this.textContent === question.correctAnswer) {
+                feedbackMessage.innerText = "That's right, well done!";
+                correctSound.play();
+            } else {
+                feedbackMessage.innerText = "Nice try, but the answer is " + question.correctAnswer;
+                incorrectSound.play();
+            }
+
+            // Hides the popup and question after 4 seconds and moves to the next question
+            setTimeout(function () {
+                feedbackPopup.style.display = "none";
+
+                // Move to next question
+                if (currentQuestionIndex < selectedQuestions.length - 1) {
+                    currentQuestionIndex++;
+                    showQuestion(currentQuestionIndex);
+                    quizContainer.style.display = "block"; // Shows the next question container
+                } else {
+                    console.log('Quiz Ended');
+                }
+            }, 4000);
+        };
     }
 }
 
 // NEXT BUTTON DISPLAY
 //makes rules disappear and countdown container appear (5,4,3,2,1)
-quizNextButton.addEventListener(`click`, function () {
+quizNextButton.addEventListener('click', function () {
     rulesContainer.style.display = "none";
     countdownContainer.style.display = "block";
 });
@@ -63,10 +108,9 @@ quizStartButton.addEventListener(`click`, function () {
     countdownContainer.style.display = "none";
     quizContainer.style.display = "block";
 
-    var randomQuestion = Math.floor(Math.random() * questions.length);
     selectRandomQuestions(15); // to grab the 15 questions that are run through selectRandomQuestions
 
-    showQuestion(randomQuestion);
+    showQuestion(currentQuestionIndex);
 });
 
 var questions = [
@@ -78,7 +122,7 @@ var questions = [
     {
         question: "Which keyword is used to declare a variable in JavaScript?",
         answers: ["A. var", "B. let", "C. const", "D. All of the above"],
-        correctAnswer: "D. All of the above (var, let, const)"
+        correctAnswer: "D. All of the above"
     },
     {
         question: "What is the output of the following code snippet?: (console.log(typeof []) ",
@@ -271,17 +315,3 @@ var questions = [
 console.log(questions[0].question);
 console.log(questions[0].answers);
 console.log(questions[0].correctAnswer);
-
-
-    // General Plan:
-    // Declare variables to keep track of score
-    // Implement a way to select 15 random questions from a pool of 40
-    // Have questions load one at a time
-    // Play sound whether the answer is right or wrong
-    // Figure out how to add countdown music for the last 10 seconds, also add a mute button
-    // Implement a scoring point system
-    // Add a timer that awards points based on how fast the user answers and deducts 15 seconds if the answer is wrong
-    // Possibly create two timers? One for the overall quiz, and one for each question. give harder questions more time?
-    // Continue with the remaining questions
-    // Implement initial score keeping using local storage
-    // Add functionality to reset the game
