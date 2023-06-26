@@ -306,13 +306,14 @@ p.subtitle {
 }
 
 .quiz-btn {
-    width: 150px;
+    display: inline-block;
+    width: 225px;
     padding: 10px;
     margin: 20px 40px;
     color: var(--black);
     background-color: var(--accent);
     text-align: center;
-    height: auto;
+    text-decoration: none;
 }
 
 .quiz-titles {
@@ -451,6 +452,7 @@ Project titled: Countdown Timer in Vanilla Javascript | CSS SVG Circle Countdown
     position: absolute;
 }
 
+/* END OF QUIZ SECTION */
 .finishMessage {
     font-size: 18px;
     font-weight: 500;
@@ -468,7 +470,7 @@ Project titled: Countdown Timer in Vanilla Javascript | CSS SVG Circle Countdown
 /* FEEDBACK IN QUIZ FOR RIGHT OR WRONG ANSWER */
 .feedback-popup,
 #feedback-message {
-    width: 700px;
+    width: 650px;
     background-color: var(--accent);
     color: var(--black);
     text-align: center;
@@ -477,6 +479,7 @@ Project titled: Countdown Timer in Vanilla Javascript | CSS SVG Circle Countdown
     z-index: 100;
 }
 
+/* SOUND BUTTON */
 #soundToggleBtn {
     background-color: var(--black);
     color: var(--accent);
@@ -484,14 +487,30 @@ Project titled: Countdown Timer in Vanilla Javascript | CSS SVG Circle Countdown
     display: flex;
 }
 
+/* INITIAL SUBMIT SECTION AND SCORE END OF QUIZ */
+#countdownContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quiz-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+}
+
 #endContainer {
-    margin-top: 40px;
     color: var(--white);
     font-size: 70px;
     padding-bottom: 0;
-    width: 700px;
+    width: 800px;
     text-align: center;
     font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .end-container {
@@ -500,48 +519,84 @@ Project titled: Countdown Timer in Vanilla Javascript | CSS SVG Circle Countdown
 }
 
 .end-container.show {
-    display: block !important;
+    display: block;
     font-size: 16px;
 }
 
 .show {
-    display: block !important;
-
+    display: block;
 }
 
 .hide {
-    display: none !important;
+    display: none;
 }
 
+/* HIGHSCORE.HTML AREA */
 .leaderboardBox {
     display: flex;
-    height: 700px;
+    flex-direction: column;
+    height: 800px;
     align-items: center;
     background-color: var(--black);
     background-image: url("../images/gaming-background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
     justify-content: center;
+    color: var(--white);
+    width: 100%;
 }
 
+.highscoreTitleDiv {
+    width: 60%;
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 10px 0;
+    background-color: var(--accent);
+    font-size: 30px;
+    color: var(--black);
+    border: 2px solid var(--black);
+}
 
 #leaderboardContainer {
     border: 2px solid var(--accent);
     padding: 20px;
-    width: 80%;
+    width: 60%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
     position: relative;
     background-color: var(--black);
     height: 500px;
-    justify-content: flex-start;
+    justify-content: center;
     color: var(--white);
+    font-size: 20px;
+    box-sizing: border-box;
+}
+
+.highScore {
+    font-size: 24px;
+    margin: 10px;
+    color: var(--white);
+    text-align: center;
 }
 
 .breadcrumb {
     background-color: var(--accent);
     padding: 15px;
     font-weight: 500px;
+}
+
+.leaderboardTitle {
+    color: var(--white);
+    font-size: 25px;
+}
+
+/* END OF QUIZ SUBMIT SHOW */
+#initialsForm #submitMessage {
+    display: none;
+}
+
+#initialsForm #submitMessage.show {
+    display: block;
 }

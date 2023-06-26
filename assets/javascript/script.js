@@ -131,23 +131,19 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (currentQuestionIndex < selectedQuestions.length - 1) {
                             currentQuestionIndex++;
                             showQuestion(currentQuestionIndex);
-                            questionOne.classList.remove('hide'); // Shows the next question container
-                            questionOne.classList.add('show');
+                            questionOne.style.display = 'block'; // Shows the next question container
                         } else {
                             // Quiz Ended
-                            questionOne.classList.remove('show'); // Hide the quiz container
-                            questionOne.classList.add('hide');
+                            questionOne.style.display = 'none'; // Hide the quiz container
                             endScore.textContent = score; // Display the final score
-                            endContainer.classList.remove('hide'); // Show the end screen
-                            endContainer.classList.add('show'); //debugging
-                            endContainer.style.zIndex = "9999"; //debugging
-                            endContainer.style.backgroundColor = 'red'; //debugging
+                            endContainer.style.display = 'block'; // Show the end screen
                         }
                         if (initialsForm) {
                             initialsForm.style.display = 'block';
                         }
 
                     }, 4000);
+
                 };
             })();
         }
@@ -158,6 +154,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var initialsForm = document.getElementById('initialsForm');
     var initialsInput = document.getElementById('initialsInput');
 
+    var submitMessage = document.getElementById('submitMessage');
+
     if (initialsForm) {
         initialsForm.addEventListener('submit', function (event) {
             event.preventDefault();
@@ -166,7 +164,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 storeScore(initials, score);
                 displayLeaderboard();
             }
-            setTimeout(restartQuiz, 5000); // Restart the quiz after 5 seconds
+            submitMessage.style.display = 'block'; // Show the submit message
+            setTimeout(function () {
+                submitMessage.style.display = 'none'; // Hide the submit message
+                restartQuiz();
+            }, 5000); // Restart the quiz after 5 seconds
         });
     }
 
@@ -184,13 +186,21 @@ document.addEventListener('DOMContentLoaded', function () {
     // START BUTTON DISPLAY
     // event listener to remove countdown container and make question appear
     function startQuiz() {
-        questionOne = document.getElementById('question-one'); // Assign the element to it here
+        questionOne = document.getElementById('question-one');
         countdownContainer.style.display = 'none';
         questionOne.style.display = 'block';
 
         selectRandomQuestions(3); // To grab the 15 questions that are run through selectRandomQuestions
 
         showQuestion(currentQuestionIndex);
+    }
+
+    var viewHighscoresBtn = document.getElementById('view-highscores-btn');
+
+    if (viewHighscoresBtn) {
+        viewHighscoresBtn.addEventListener('click', function () {
+            window.location.href = 'highscores.html';
+        });
     }
 
     if (quizStartButton) {
@@ -417,13 +427,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
             for (var i = 0; i < Math.min(10, scores.length); i++) { // display top 10 scores
                 var scoreElement = document.createElement('p'); // create a new paragraph for each score
-                scoreElement.textContent = `${scores[i].initials}: ${scores[i].score}`; // add the score to the paragraph
+                scoreElement.textContent = `${i + 1}. ${scores[i].initials}: ${scores[i].score}`; // add the score to the paragraph
                 leaderboardContainer.appendChild(scoreElement); // add the paragraph to the leaderboard
             }
 
             leaderboardContainer.style.display = 'block'; // shows the leaderboard
         }
     }
+
+
+    displayLeaderboard();
 
     function restartQuiz() {
         // Clears previous data
@@ -458,10 +471,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Restart the quiz
-        selectRandomQuestions(15);
+        selectRandomQuestions(3);
         showQuestion(currentQuestionIndex);
         if (rulesContainer) {
             rulesContainer.style.display = 'block';
         }
     };
+
 });
