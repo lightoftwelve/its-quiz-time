@@ -52,6 +52,8 @@ var feedbackPopup = document.getElementById('feedbackPopup');
 var feedbackMessage = document.getElementById('feedbackPopupMessage');;
 var isFeedbackDisplaying = false; // used so user doesnt accidently spam answers. will stop them from submitting multiple answers while popup is showing
 
+var score = 0; // Initialize the score at the start of the quiz
+
 // SELECT AND STORE 15 RANDOM QUESTIONS
 // Function to randomly select and store 15 questions (amount determined by selectRandomQuestions(15);)
 function selectRandomQuestions(numQuestions) {
@@ -101,6 +103,7 @@ function showQuestion(questionIndex) {
 
                 if (isSoundOn) {
                     if (isCorrect) {
+                        score++
                         feedbackMessage.innerText = "That's right, well done! 🏆";
                         correctSound.play();
                     } else {
@@ -109,6 +112,7 @@ function showQuestion(questionIndex) {
                     }
                 } else {
                     if (isCorrect) {
+                        score++
                         feedbackMessage.innerText = "That's right, well done! 🏆";
                     } else {
                         feedbackMessage.innerText = "Nice try, but the answer is " + question.correctAnswer + " 🥺";
@@ -124,15 +128,39 @@ function showQuestion(questionIndex) {
                     if (currentQuestionIndex < selectedQuestions.length - 1) {
                         currentQuestionIndex++;
                         showQuestion(currentQuestionIndex);
-                        quizContainer.style.display = 'block'; // Shows the next question container
+                        quizContainer.classList.remove('hide'); // Shows the next question container
+                        quizContainer.classList.add('show');
                     } else {
-                        console.log('Quiz Ended');
+                        // Quiz Ended
+                        quizContainer.classList.remove('show'); // Hide the quiz container
+                        quizContainer.classList.add('hide');
+                        endScore.textContent = score; // Display the final score
+                        endContainer.classList.remove('hide'); // Show the end screen
+                        endContainer.classList.add('show'); //debugging
+                        endContainer.style.zIndex = "9999"; //debugging
+                        endContainer.style.backgroundColor = 'red'; //debugging
                     }
                 }, 4000);
             };
         })();
     }
 }
+
+var endContainer = document.getElementById('endContainer');
+var endScore = document.getElementById('endScore');
+var initialsForm = document.getElementById('initialsForm');
+var initialsInput = document.getElementById('initialsInput');
+
+initialsForm.addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent the form from submitting normally due to the event
+
+    var initials = initialsInput.value;
+    if (initials !== '') {
+        storeScore(initials, score); // Assuming "score" is your variable for the score
+    }
+    displayLeaderboard();
+    setTimeout(restartQuiz, 5000); // Restart the quiz after 5 seconds
+});
 
 // NEXT BUTTON DISPLAY
 //makes rules disappear and countdown container appear (5,4,3,2,1)
@@ -147,7 +175,7 @@ quizStartButton.addEventListener(`click`, function () {
     countdownContainer.style.display = 'none';
     quizContainer.style.display = 'block';
 
-    selectRandomQuestions(15); // to grab the 15 questions that are run through selectRandomQuestions
+    selectRandomQuestions(3); // to grab the 15 questions that are run through selectRandomQuestions
 
     showQuestion(currentQuestionIndex);
 });
@@ -354,3 +382,50 @@ var questions = [
 console.log(questions[0].question);
 console.log(questions[0].answers);
 console.log(questions[0].correctAnswer);
+
+function storeScore(initials, score) {
+    var scores = JSON.parse(localStorage.getItem("scores") || "[]"); // retrieves existing scores or initialize as an empty array
+    scores.push({ initials, score }); // adds a new score to the array
+    localStorage.setItem("scores", JSON.stringify(scores)); // stores the updated scores
+}
+
+function displayLeaderboard() {
+    var scores = JSON.parse(localStorage.getItem("scores") || "[]"); // retrieves all scores
+    scores.sort(function (a, b) { return b.score - a.score; }); // sorts the scores in descending order
+
+    var leaderboardContainer = document.getElementById('leaderboardContainer');
+    leaderboardContainer.innerHTML = ''; // clears the leaderboard
+
+    for (var i = 0; i < Math.min(10, scores.length); i++) { // display top 10 scores
+        var scoreElement = document.createElement('p'); // create a new paragraph for each score
+        scoreElement.textContent = `${scores[i].initials}: ${scores[i].score}`; // add the score to the paragraph
+        leaderboardContainer.appendChild(scoreElement); // add the paragraph to the leaderboard
+    }
+
+    leaderboardContainer.style.display = 'block'; // shows the leaderboard
+}
+
+function restartQuiz() {
+    // Clears previous data
+    score = 0;
+    selectedQuestions = [];
+    currentQuestionIndex = 0;
+
+    // Hide all containers
+    rulesContainer.style.display = 'none';
+    countdownContainer.style.display = 'none';
+    quizContainer.style.display = 'none';
+    document.getElementById('leaderboardContainer').style.display = 'none';
+
+    // Restart the quiz
+    selectRandomQuestions(15);
+    showQuestion(currentQuestionIndex);
+    rulesContainer.style.display = 'block';
+}
+
+console.log(endContainer); // Should display the endContainer element
+console.log(endScore); // Should display the endScore element
+console.log("Before setting endContainer to block"); // debugging line
+endContainer.style.display = 'block'; // Show the end screen
+console.log("After setting endContainer to block"); // debugging line
+console.log(endContainer.style.display); // Should print 'block' if endContainer is visible
