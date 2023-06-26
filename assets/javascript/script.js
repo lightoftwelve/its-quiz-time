@@ -45,8 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var getQuestion = document.getElementById('question');
     var answerButtons = Array.from(document.getElementsByClassName('answer'));
 
-    var feedbackElement = document.querySelector('#feedback');
-
     var selectedQuestions = []; // will hold information keeping track of what questions were selected
     var currentQuestionIndex = 0; // For tracking the current question.
 
@@ -74,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // For displaying questions & answers
     var correctSound = new Audio('assets/audio/game-bonus-144751.mp3');
     var incorrectSound = new Audio('assets/audio/surprise-sound-effect-99300.mp3');
+    // var wawawaSound = new Audio('assets/audio/wah-wah-sad-trombone-6347.mp3');
 
     function showQuestion(questionIndex) {
         var question = selectedQuestions[questionIndex];
@@ -103,6 +102,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     feedbackPopup.style.display = 'block';
 
                     var isCorrect = this.textContent === question.correctAnswer;
+
+                    if (!isCorrect) {
+                        wrongAnswerSelected();
+                    }
 
                     if (isSoundOn) {
                         if (isCorrect) {
@@ -190,9 +193,57 @@ document.addEventListener('DOMContentLoaded', function () {
         countdownContainer.style.display = 'none';
         questionOne.style.display = 'block';
 
+        startCountdown();
+
         selectRandomQuestions(3); // To grab the 15 questions that are run through selectRandomQuestions
 
         showQuestion(currentQuestionIndex);
+    }
+
+    var minutesDisplay = document.getElementById('minutesDisplay');
+    var secondsDisplay = document.getElementById('secondsDisplay');
+
+    var minCircle = document.getElementById('minCircle');
+    var secCircle = document.getElementById('secCircle');
+
+    var totalSeconds = 3 * 59;
+
+    // the functionality of this timer is inspired from a tutorial by https://www.patreon.com/onlinetutorials // Project titled: Countdown Timer in Vanilla Javascript | CSS SVG Circle Countdown Time Animation.
+    function startCountdown() {
+        var countdown = setInterval(function () {
+            // calculate minutes and seconds from totalSeconds
+            var minutes = Math.floor(totalSeconds / 60);
+            var seconds = totalSeconds % 60;
+
+            // displays the time left
+            minutesDisplay.innerHTML = (minutes < 10 ? '0' : '') + minutes + "<br><span>MINUTES<span>";
+            secondsDisplay.innerHTML = (seconds < 10 ? '0' : '') + seconds + "<br><span>SECONDS<span>";
+
+            // animates the "clocks"
+            minCircle.style.strokeDashoffset = 440 - (440 * minutes) / 2;
+            secCircle.style.strokeDashoffset = 440 - (440 * seconds) / 60;
+
+            // decrease totalSeconds
+            totalSeconds--;
+
+            // if the countdown is over, initial form appears
+            if (totalSeconds <= 0) {
+                clearInterval(countdown);
+                questionOne.style.display = 'none'; // Hide the quiz container
+                endScore.textContent = score; // Show final score
+                endContainer.style.display = 'block'; // Shows the end screen
+                if (initialsForm) {
+                    initialsForm.style.display = 'block';
+                }
+            }
+        }, 1000);
+    }
+
+    function wrongAnswerSelected() {
+        totalSeconds -= 15;
+        if (totalSeconds < 0) {
+            totalSeconds = 0;
+        }
     }
 
     var viewHighscoresBtn = document.getElementById('view-highscores-btn');
