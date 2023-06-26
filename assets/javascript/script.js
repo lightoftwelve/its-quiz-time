@@ -16,23 +16,41 @@ fetch('header.html')
 
 // NOTE: Because the header is asynchronous, it won't block the execution of the rest of the code
 
-// DECLARING VARIABLES
-var rulesContainer = document.getElementById("rulesContainer");
-var countdownContainer = document.getElementById("countdownContainer");
-var quizContainer = document.getElementById("question-one");
-var quizNextButton = document.getElementById("next-btn");
+var soundToggleBtn = document.getElementById('soundToggleBtn');
+var isSoundOn = true; // sound starts as turned on
 
-var quizStartButton = document.getElementById("start-btn");
-var getQuestion = document.getElementById("question");
-var answerButtons = Array.from(document.getElementsByClassName("answer"));
+// Function to toggle the sound on/off
+function toggleSound() {
+    isSoundOn = !isSoundOn; // Toggle the sound state
+
+    if (isSoundOn) {
+        soundToggleBtn.innerHTML = '<ion-icon name="volume-high-outline"></ion-icon>';
+    } else {
+        soundToggleBtn.innerHTML = '<ion-icon name="volume-mute-outline"></ion-icon>';
+    }
+}
+
+// Listens for a click to toggle sound
+soundToggleBtn.addEventListener('click', toggleSound);
+
+// DECLARING VARIABLES
+var rulesContainer = document.getElementById('rulesContainer');
+var countdownContainer = document.getElementById('countdownContainer');
+var quizContainer = document.getElementById('question-one');
+var quizNextButton = document.getElementById('next-btn');
+
+var quizStartButton = document.getElementById('start-btn');
+var getQuestion = document.getElementById('question');
+var answerButtons = Array.from(document.getElementsByClassName('answer'));
 
 var feedbackElement = document.querySelector('#feedback');
 
 var selectedQuestions = []; // will hold information keeping track of what questions were selected
 var currentQuestionIndex = 0; // For tracking the current question.
 
-var feedbackPopup = document.getElementById("feedbackPopup");
-var feedbackMessage = document.getElementById("feedbackPopupMessage");;
+var feedbackPopup = document.getElementById('feedbackPopup');
+var feedbackMessage = document.getElementById('feedbackPopupMessage');;
+var isFeedbackDisplaying = false; // used so user doesnt accidently spam answers. will stop them from submitting multiple answers while popup is showing
 
 // SELECT AND STORE 15 RANDOM QUESTIONS
 // Function to randomly select and store 15 questions (amount determined by selectRandomQuestions(15);)
@@ -64,49 +82,70 @@ function showQuestion(questionIndex) {
     });
 
     for (var i = 0; i < question.answers.length; i++) {
-        answerButtons[i].textContent = question.answers[i];
-        answerButtons[i].style.display = 'block';
+        (function () {
+            var selectedQuestion = question; // Create a new variable to capture the correct value
+            answerButtons[i].textContent = selectedQuestion.answers[i];
+            answerButtons[i].style.display = 'block';
 
-        // Event listener to display answer status when clicked
-        answerButtons[i].onclick = function () {
-            feedbackPopup.style.display = "block";
-            if (this.textContent === question.correctAnswer) {
-                feedbackMessage.innerText = "That's right, well done!";
-                correctSound.play();
-            } else {
-                feedbackMessage.innerText = "Nice try, but the answer is " + question.correctAnswer;
-                incorrectSound.play();
-            }
-
-            // Hides the popup and question after 4 seconds and moves to the next question
-            setTimeout(function () {
-                feedbackPopup.style.display = "none";
-
-                // Move to next question
-                if (currentQuestionIndex < selectedQuestions.length - 1) {
-                    currentQuestionIndex++;
-                    showQuestion(currentQuestionIndex);
-                    quizContainer.style.display = "block"; // Shows the next question container
-                } else {
-                    console.log('Quiz Ended');
+            // Event listener to display answer status when clicked
+            answerButtons[i].onclick = function () {
+                if (isFeedbackDisplaying) {
+                    return; // Ignore clicks during the feedback display
                 }
-            }, 4000);
-        };
+
+                isFeedbackDisplaying = true; // Disable the buttons so users can't accidently spam answers
+
+                feedbackPopup.style.display = 'block';
+
+                var isCorrect = this.textContent === question.correctAnswer;
+
+                if (isSoundOn) {
+                    if (isCorrect) {
+                        feedbackMessage.innerText = "That's right, well done! 🏆";
+                        correctSound.play();
+                    } else {
+                        feedbackMessage.innerText = "Nice try, but the answer is " + question.correctAnswer + " 🥺";
+                        incorrectSound.play();
+                    }
+                } else {
+                    if (isCorrect) {
+                        feedbackMessage.innerText = "That's right, well done! 🏆";
+                    } else {
+                        feedbackMessage.innerText = "Nice try, but the answer is " + question.correctAnswer + " 🥺";
+                    }
+                }
+
+                // Hides the popup and question after 4 seconds and moves to the next question
+                setTimeout(function () {
+                    feedbackPopup.style.display = 'none';
+                    isFeedbackDisplaying = false; // Re-enable the buttons
+
+                    // Move to next question
+                    if (currentQuestionIndex < selectedQuestions.length - 1) {
+                        currentQuestionIndex++;
+                        showQuestion(currentQuestionIndex);
+                        quizContainer.style.display = 'block'; // Shows the next question container
+                    } else {
+                        console.log('Quiz Ended');
+                    }
+                }, 4000);
+            };
+        })();
     }
 }
 
 // NEXT BUTTON DISPLAY
 //makes rules disappear and countdown container appear (5,4,3,2,1)
 quizNextButton.addEventListener('click', function () {
-    rulesContainer.style.display = "none";
-    countdownContainer.style.display = "block";
+    rulesContainer.style.display = 'none';
+    countdownContainer.style.display = 'block';
 });
 
 // START BUTTON DISPLAY
 // event listener to remove countdown container and make question appear
 quizStartButton.addEventListener(`click`, function () {
-    countdownContainer.style.display = "none";
-    quizContainer.style.display = "block";
+    countdownContainer.style.display = 'none';
+    quizContainer.style.display = 'block';
 
     selectRandomQuestions(15); // to grab the 15 questions that are run through selectRandomQuestions
 
@@ -115,74 +154,74 @@ quizStartButton.addEventListener(`click`, function () {
 
 var questions = [
     {
-        question: "Which of the following is not a JavaScript data type?",
-        answers: ["A. String", "B. Boolean", "C. Character", "D. Number"],
-        correctAnswer: "C. Character"
+        question: 'Which of the following is not a JavaScript data type?',
+        answers: ['A. String', 'B. Boolean', 'C. Character', 'D. Number'],
+        correctAnswer: 'C. Character'
     },
     {
-        question: "Which keyword is used to declare a variable in JavaScript?",
-        answers: ["A. var", "B. let", "C. const", "D. All of the above"],
-        correctAnswer: "D. All of the above"
+        question: 'Which keyword is used to declare a variable in JavaScript?',
+        answers: ['A. var', 'B. let', 'C. const', 'D. All of the above'],
+        correctAnswer: 'D. All of the above'
     },
     {
-        question: "What is the output of the following code snippet?: (console.log(typeof []) ",
-        answers: ["A. array", "B. object", "C. array object", "D. undefined"],
-        correctAnswer: "B. object"
+        question: 'What is the output of the following code snippet?: (console.log(typeof []) ',
+        answers: ['A. array', 'B. object', 'C. array object', 'D. undefined'],
+        correctAnswer: 'B. object'
     },
     {
-        question: "Which operator is used to concatenate strings in JavaScript?",
-        answers: ["A. +", "B. .", "C. ,", "D. :"],
-        correctAnswer: "A. +"
+        question: 'Which operator is used to concatenate strings in JavaScript?',
+        answers: ['A. +', 'B. .', 'C. ,', 'D. :'],
+        correctAnswer: 'A. +'
     },
     {
-        question: "What is the purpose of the setTimeout() function in JavaScript?",
-        answers: ["A. To set an interval for executing a function repeatedly.", "B. To execute a function after a specified delay.", "C. To pause the execution of JavaScript code.", "D. To check if a condition is met and execute a block of code."],
-        correctAnswer: "B. To execute a function after a specified delay."
+        question: 'What is the purpose of the setTimeout() function in JavaScript?',
+        answers: ['A. To set an interval for executing a function repeatedly.', 'B. To execute a function after a specified delay.', 'C. To pause the execution of JavaScript code.', 'D. To check if a condition is met and execute a block of code.'],
+        correctAnswer: 'B. To execute a function after a specified delay.'
     },
     {
-        question: "Which method is used to remove the last element from an array in JavaScript?",
-        answers: ["A. remove()", "B. pop()", "C. shift()", "D. splice()"],
-        correctAnswer: "B. pop()"
+        question: 'Which method is used to remove the last element from an array in JavaScript?',
+        answers: ['A. remove()', 'B. pop()', 'C. shift()', 'D. splice()'],
+        correctAnswer: 'B. pop()'
     },
     {
-        question: "How do you comment a single line in JavaScript?",
-        answers: ["A. <!-- comment -->", "B. /* comment */", "C. // comment ", "D. <b>comment</b>"],
-        correctAnswer: "C. // comment"
+        question: 'How do you comment a single line in JavaScript?',
+        answers: ['A. <!-- comment -->', 'B. /* comment */', 'C. // comment ', 'D. <b>comment</b>'],
+        correctAnswer: 'C. // comment'
     },
     {
-        question: "Which function is used to convert a string to an integer in JavaScript?",
-        answers: ["A. toInteger()", "B. parseInt()", "C. convertToInt()", "D. castToInteger()"],
-        correctAnswer: "B. parseInt()"
+        question: 'Which function is used to convert a string to an integer in JavaScript?',
+        answers: ['A. toInteger()', 'B. parseInt()', 'C. convertToInt()', 'D. castToInteger()'],
+        correctAnswer: 'B. parseInt()'
     },
     {
-        question: "What does the NaN value represent in JavaScript?",
-        answers: ["A. Not a Number", "B. Null or Nothing", "C. Negative Number", "D. Non-ASCII"],
-        correctAnswer: "A. Not a Number"
+        question: 'What does the NaN value represent in JavaScript?',
+        answers: ['A. Not a Number', 'B. Null or Nothing', 'C. Negative Number', 'D. Non-ASCII'],
+        correctAnswer: 'A. Not a Number'
     },
     {
-        question: "Which method is used to add a new element to the end of an array in JavaScript?",
-        answers: ["A. append()", "B. push()", "C. add()", "D. insert()"],
-        correctAnswer: "B. push()"
+        question: 'Which method is used to add a new element to the end of an array in JavaScript?',
+        answers: ['A. append()', 'B. push()', 'C. add()', 'D. insert()'],
+        correctAnswer: 'B. push()'
     },
     {
-        question: "What does the JSON.parse() function in JavaScript do?",
-        answers: ["A. To parse XML data.", "B. To parse JSON data and convert it into a JavaScript object.", "C. To parse HTML data.", "D. To parse CSS data."],
-        correctAnswer: "B. To parse JSON data and convert it into a JavaScript object."
+        question: 'What does the JSON.parse() function in JavaScript do?',
+        answers: ['A. To parse XML data.', 'B. To parse JSON data and convert it into a JavaScript object.', 'C. To parse HTML data.', 'D. To parse CSS data.'],
+        correctAnswer: 'B. To parse JSON data and convert it into a JavaScript object.'
     },
     {
-        question: "Which event is triggered when an HTML element loses focus?",
-        answers: ["A. onblur", "B. onfocus", "C. onclick", "D. onekeydown"],
-        correctAnswer: "A. onblur"
+        question: 'Which event is triggered when an HTML element loses focus?',
+        answers: ['A. onblur', 'B. onfocus', 'C. onclick', 'D. onekeydown'],
+        correctAnswer: 'A. onblur'
     },
     {
-        question: "How do you check the type of a variable in JavaScript",
-        answers: ["A. typeOf", "B. checkType", "C. typeof", "D. variableType"],
-        correctAnswer: "C. typeof"
+        question: 'How do you check the type of a variable in JavaScript',
+        answers: ['A. typeOf', 'B. checkType', 'C. typeof', 'D. variableType'],
+        correctAnswer: 'C. typeof'
     },
     {
         question: 'What is the result of the expression: "5" + 2',
-        answers: ['A. "52"', 'B. 7', 'C. 52', 'D. Error'],
-        correctAnswer: 'A. "52"'
+        answers: ["A. '52'", "B. 7", "C. 52", "D. Error"],
+        correctAnswer: "A. '52'"
     },
     {
         question: 'How do you create a function in JavaScript?',
@@ -196,7 +235,7 @@ var questions = [
     },
     {
         question: 'What does the null value represent in JavaScript',
-        answers: ['A. "Undefined value"', 'B. "Empty string"', 'C. "No value or nonexistence of an object"', 'D. "Zero value"'],
+        answers: ['A. Undefined value', 'B. Empty string', 'C. No value or nonexistence of an object', 'D. Zero value'],
         correctAnswer: 'C. No value or nonexistence of an object'
     },
     {
@@ -216,28 +255,28 @@ var questions = [
     },
     {
         question: 'What is the correct way to create a JavaScript array?',
-        answers: ['A. var array = [1, 2, 3];', 'B. var array = {1, 2, 3};', 'C. var array = (1, 2, 3);', 'D. var array = "1, 2, 3";'],
+        answers: ['A. var array = [1, 2, 3];', 'B. var array = {1, 2, 3};', 'C. var array = (1, 2, 3);', 'D. var array = \'1, 2, 3\';'],
         correctAnswer: 'A. var array = [1, 2, 3];'
     },
     {
-        question: 'What is the output of the following code snippet? console.log(2 + "2");',
-        answers: ['A. "22"', 'B. "4"', 'C. 4', 'D. 22'],
-        correctAnswer: 'A. "22"'
+        question: 'What is the output of the following code snippet? console.log(2 + \'2\');',
+        answers: ['A. \'22\'', 'B. \'4\'', 'C. 4', 'D. 22'],
+        correctAnswer: 'A. \'22\''
     },
     {
         question: 'Which function is used to find the index of the first occurrence of a specified value in an array?',
         answers: ['A. findIndex()', 'B. indexOf()', 'C. search()', 'D. contains()'],
-        correctAnswer: 'A. indexOf()'
+        correctAnswer: 'B. indexOf()'
     },
     {
         question: 'What is the purpose of the addEventListener() method in JavaScript?',
         answers: ['A. To remove an event listener from an element.', 'B. To add a new event listener to an element.', 'C. To trigger an event manually.', 'D. To prevent the default behavior of an event.'],
-        correctAnswer: 'A. To add a new event listener to an element.'
+        correctAnswer: 'B. To add a new event listener to an element.'
     },
     {
         question: 'Which method is used to convert a JavaScript object to a string?',
         answers: ['A. toString()', 'B. stringify()', 'C. toJSON()', 'D. convertToString()'],
-        correctAnswer: 'A. stringify()'
+        correctAnswer: 'B. stringify()'
     },
     {
         question: 'How do you declare a constant variable in JavaScript?',
@@ -245,7 +284,7 @@ var questions = [
         correctAnswer: 'C. const'
     },
     {
-        question: 'What is the result of the expression: 5 == "5"?',
+        question: 'What is the result of the expression: 5 == \'5\'?',
         answers: ['A. true', 'B. false', 'C. undefined', 'D. Error'],
         correctAnswer: 'A. true'
     },
