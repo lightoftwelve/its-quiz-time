@@ -14,6 +14,7 @@ fetch('header.html')
 
 // NOTE: Because the header is asynchronous, it won't block the execution of the rest of the code
 
+// DECLARING VARIABLES
 var rulesContainer = document.getElementById("rulesContainer");
 var countdownContainer = document.getElementById("countdownContainer");
 var quizContainer = document.getElementById("question-one");
@@ -23,21 +24,22 @@ var quizStartButton = document.getElementById("start-btn");
 var getQuestion = document.getElementById("question");
 var answerButtons = document.getElementsByClassName("answer");
 
-//makes rules disappear and countdown container appear (5,4,3,2,1)
-quizNextButton.addEventListener(`click`, function () {
-    rulesContainer.style.display = "none";
-    countdownContainer.style.display = "block";
-});
+var selectedQuestions = []; // will hold information keeping track of what questions were selected
 
-// event listener to remove countdown container and make question appear
-quizStartButton.addEventListener(`click`, function () {
-    countdownContainer.style.display = "none";
-    quizContainer.style.display = "block";
+// SELECT AND STORE 15 RANDOM QUESTIONS
+// Function to randomly select and store 15 questions (amount determined by selectRandomQuestions(15);)
+function selectRandomQuestions(numQuestions) {
 
-    var randomQuestion = Math.floor(Math.random() * questions.length);
-    showQuestion(randomQuestion);
-});
+    var availableQuestions = questions.slice(); // Copy the available questions array to a new array
 
+    for (var i = 0; i < numQuestions; i++) {  // Loop to select chosen number of questions
+        var randomIndex = Math.floor(Math.random() * availableQuestions.length); // Generate a random index within the range of available questions
+        var selectedQuestion = availableQuestions.splice(randomIndex, 1)[0]; // Remove the selected question from the available questions array
+        selectedQuestions.push(selectedQuestion); // Add the selected question to the selectedQuestions array
+    }
+}
+
+// SHOW QUESTION FUNCTION
 // For displaying questions & answers
 function showQuestion(questionIndex) {
     var question = questions[questionIndex]; // Grabs the questions object
@@ -47,6 +49,25 @@ function showQuestion(questionIndex) {
         answerButtons[i].textContent = question.answers[i];
     }
 }
+
+// NEXT BUTTON DISPLAY
+//makes rules disappear and countdown container appear (5,4,3,2,1)
+quizNextButton.addEventListener(`click`, function () {
+    rulesContainer.style.display = "none";
+    countdownContainer.style.display = "block";
+});
+
+// START BUTTON DISPLAY
+// event listener to remove countdown container and make question appear
+quizStartButton.addEventListener(`click`, function () {
+    countdownContainer.style.display = "none";
+    quizContainer.style.display = "block";
+
+    var randomQuestion = Math.floor(Math.random() * questions.length);
+    selectRandomQuestions(15); // to grab the 15 questions that are run through selectRandomQuestions
+
+    showQuestion(randomQuestion);
+});
 
 var questions = [
     {
