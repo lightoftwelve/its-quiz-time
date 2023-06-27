@@ -600,3 +600,96 @@ Project titled: Countdown Timer in Vanilla Javascript | CSS SVG Circle Countdown
 #initialsForm #submitMessage.show {
     display: block;
 }
+
+@media screen and (max-width: 768px) {
+    @media screen and (max-width: 768px) {
+        body {
+            font-size: 16px;
+        }
+
+        header {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15px 0;
+        }
+
+        header h1 {
+            font-size: 28px;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15px 0;
+        }
+
+        header nav {
+            font-size: 16px;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 15px;
+        }
+
+        nav a {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .dropdown {
+            margin-top: 15px;
+        }
+
+        .dropdown-content {
+            width: 100%;
+        }
+    }
+
+
+    .hero {
+        height: 400px;
+    }
+
+    .hero h2 {
+        font-size: 60px;
+    }
+
+    .hero p {
+        font-size: 18px;
+    }
+
+    .halfbox {
+        flex-direction: column;
+    }
+
+    .halfbox>div {
+        width: 100%;
+    }
+
+    .halfbox-writing {
+        padding: 0 20px;
+    }
+
+    .halfbox h2 {
+        font-size: 40px;
+    }
+
+    .halfbox p,
+    .halfbox-btn,
+    p.subtitle {
+        padding: 10px 20px;
+    }
+
+    .key-surround h2 {
+        font-size: 50px;
+    }
+
+    .quiz-section {
+        height: 400px;
+    }
+
+    .quiz-container {
+        font-size: 50px;
+    }
+
+    .hero h2 {
+        font-size: 80px;
+    }
+
+}

@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var isFeedbackDisplaying = false; // used so user doesnt accidently spam answers. will stop them from submitting multiple answers while popup is showing
 
     var score = 0; // Initialize the score at the start of the quiz
+    var timerId;
 
     var questionOne;
     // SELECT AND STORE 15 RANDOM QUESTIONS
@@ -72,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // For displaying questions & answers
     var correctSound = new Audio('assets/audio/game-bonus-144751.mp3');
     var incorrectSound = new Audio('assets/audio/surprise-sound-effect-99300.mp3');
-    // var wawawaSound = new Audio('assets/audio/wah-wah-sad-trombone-6347.mp3');
 
     function showQuestion(questionIndex) {
         var question = selectedQuestions[questionIndex];
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         startCountdown();
 
-        selectRandomQuestions(3); // To grab the 15 questions that are run through selectRandomQuestions
+        selectRandomQuestions(15); // To grab the 15 questions that are run through selectRandomQuestions
 
         showQuestion(currentQuestionIndex);
     }
@@ -206,10 +206,16 @@ document.addEventListener('DOMContentLoaded', function () {
     var minCircle = document.getElementById('minCircle');
     var secCircle = document.getElementById('secCircle');
 
-    var totalSeconds = 3 * 59;
+    var totalSeconds = 1 * 122;
+    // Define timerId globally
+    var timerId;
 
-    // the functionality of this timer is inspired from a tutorial by https://www.patreon.com/onlinetutorials // Project titled: Countdown Timer in Vanilla Javascript | CSS SVG Circle Countdown Time Animation.
     function startCountdown() {
+        // Clear any existing timer when startCountdown is called
+        if (timerId) {
+            resetTimer();
+        }
+
         var countdown = setInterval(function () {
             // calculate minutes and seconds from totalSeconds
             var minutes = Math.floor(totalSeconds / 60);
@@ -237,7 +243,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         }, 1000);
+        timerId = countdown;
     }
+
+    function resetTimer() {
+        clearInterval(timerId); // Clear the current timer
+        totalSeconds = 1 * 122; // Reset the total seconds
+    }
+
+
 
     function wrongAnswerSelected() {
         totalSeconds -= 15;
@@ -460,40 +474,37 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log(questions[0].question);
     console.log(questions[0].answers);
     console.log(questions[0].correctAnswer);
-
     function storeScore(initials, score) {
         var scores = JSON.parse(localStorage.getItem("scores") || "[]"); // retrieves existing scores or initialize as an empty array
         scores.push({ initials, score }); // adds a new score to the array
         localStorage.setItem("scores", JSON.stringify(scores)); // stores the updated scores
     };
-
     function displayLeaderboard() {
         var leaderboardContainer = document.getElementById('leaderboardContainer');
-
         if (leaderboardContainer) {
             var scores = JSON.parse(localStorage.getItem("scores") || "[]"); // retrieves all scores
             scores.sort(function (a, b) { return b.score - a.score; }); // sorts the scores in descending order
-
             leaderboardContainer.innerHTML = ''; // clears the leaderboard
-
             for (var i = 0; i < Math.min(10, scores.length); i++) { // display top 10 scores
                 var scoreElement = document.createElement('p'); // create a new paragraph for each score
                 scoreElement.textContent = `${i + 1}. ${scores[i].initials}: ${scores[i].score}`; // add the score to the paragraph
                 leaderboardContainer.appendChild(scoreElement); // add the paragraph to the leaderboard
             }
-
             leaderboardContainer.style.display = 'block'; // shows the leaderboard
         }
     }
 
-
     displayLeaderboard();
 
+
     function restartQuiz() {
+        resetTimer();
         // Clears previous data
         score = 0;
         selectedQuestions = [];
         currentQuestionIndex = 0;
+
+
 
         // Hide all containers
         if (rulesContainer) {
@@ -522,8 +533,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Restart the quiz
-        selectRandomQuestions(3);
-        showQuestion(currentQuestionIndex);
+        selectRandomQuestions(15);
+
         if (rulesContainer) {
             rulesContainer.style.display = 'block';
         }
